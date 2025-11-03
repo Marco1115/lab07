@@ -3,6 +3,7 @@ package it.unibo.inner.impl;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Arrays;
 
 import it.unibo.inner.api.IterableWithPolicy;
@@ -31,7 +32,7 @@ public class IterableWithPolicyImpl<T> implements IterableWithPolicy<T> {
 
     @Override
     public Iterator<T> iterator() {
-        return this.new ArrayIterator<T>();
+        return this.new ArrayIterator();
     }
 
     @Override
@@ -39,7 +40,7 @@ public class IterableWithPolicyImpl<T> implements IterableWithPolicy<T> {
         this.policy = filter;
     }
 
-    private class ArrayIterator<T> implements Iterator<T> {
+    private class ArrayIterator implements Iterator<T> {
 
         private int current;
 
@@ -49,16 +50,21 @@ public class IterableWithPolicyImpl<T> implements IterableWithPolicy<T> {
 
         @Override
         public boolean hasNext() {
-            if (this.current < IterableWithPolicyImpl.this.elements.size()) {
-                return true;
-            } else {
-                return false;
+            for(int i = current; i < IterableWithPolicyImpl.this.elements.size(); i++) {
+                if(IterableWithPolicyImpl.this.policy.test(IterableWithPolicyImpl.this.elements.get(i))) {
+                    current = i;
+                    return true;
+                }
             }
+            return false;
         }
 
         @Override
         public T next() {
-            return (T) IterableWithPolicyImpl.this.elements.get(current++);
+            if (hasNext()) {
+                return IterableWithPolicyImpl.this.elements.get(current++);
+            }
+            throw new NoSuchElementException();
         }
 
     }
