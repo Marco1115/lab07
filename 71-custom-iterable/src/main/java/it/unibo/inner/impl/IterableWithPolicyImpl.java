@@ -11,7 +11,7 @@ import it.unibo.inner.api.Predicate;
 public class IterableWithPolicyImpl<T> implements IterableWithPolicy<T> {
 
     private final List<T> elements;
-    private final Predicate<T> policy;
+    private Predicate<T> policy;
 
     public IterableWithPolicyImpl(final T[] inputArray) {
         this(inputArray, new Predicate<T>() {
@@ -36,7 +36,7 @@ public class IterableWithPolicyImpl<T> implements IterableWithPolicy<T> {
 
     @Override
     public void setIterationPolicy(Predicate<T> filter) {
-        // TODO
+        this.policy = filter;
     }
 
     private class ArrayIterator<T> implements Iterator<T> {
