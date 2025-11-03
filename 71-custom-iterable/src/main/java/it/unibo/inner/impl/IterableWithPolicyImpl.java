@@ -11,9 +11,15 @@ import it.unibo.inner.api.Predicate;
 public class IterableWithPolicyImpl<T> implements IterableWithPolicy<T> {
 
     private final List<T> elements;
+    private Predicate<T> policy;
 
     public IterableWithPolicyImpl(final T[] inputArray) {
         this.elements = new ArrayList<>(Arrays.asList(inputArray));
+    }
+
+    public IterableWithPolicyImpl(final T[]inputArray, final Predicate<T> filter) {
+        this(inputArray);
+        this.policy = filter;
     }
 
     @Override
