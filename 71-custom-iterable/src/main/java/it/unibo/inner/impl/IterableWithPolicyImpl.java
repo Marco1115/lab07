@@ -8,7 +8,7 @@ import java.util.Arrays;
 import it.unibo.inner.api.IterableWithPolicy;
 import it.unibo.inner.api.Predicate;
 
-class IterableWithPolicyImpl<T> implements IterableWithPolicy<T> {
+public class IterableWithPolicyImpl<T> implements IterableWithPolicy<T> {
 
     private final List<T> elements;
 
