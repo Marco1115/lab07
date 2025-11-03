@@ -36,7 +36,7 @@ public class IterableWithPolicyImpl<T> implements IterableWithPolicy<T> {
 
         @Override
         public boolean hasNext() {
-            if (this.current < IterableWithPolicyImpl.this.elements.size() - 1) {
+            if (this.current < IterableWithPolicyImpl.this.elements.size()) {
                 return true;
             } else {
                 return false;
