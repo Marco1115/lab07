@@ -6,6 +6,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 /**
@@ -14,6 +17,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 class TestStrictBankAccount {
 
     private static final int AMOUNT = 100;
+    private static final int ACCEPTABLE_MESSAGE_LENGTH = 10;
 
     // Create a new AccountHolder and a StrictBankAccount for it each time tests are executed.
     private AccountHolder mRossi;
@@ -53,7 +57,15 @@ class TestStrictBankAccount {
      */
     @Test
     public void testNegativeWithdraw() {
-        fail("To be implemented");
+        try {
+            bankAccount.withdraw(mRossi.getUserID(), -AMOUNT);
+            fail("Withdrawing a negative amount was possible, but should have thrown an exception");
+        } catch(IllegalArgumentException e) {
+            assertEquals(0.0, bankAccount.getBalance());
+            assertNotNull(e.getMessage()); // Non-null message
+            assertFalse(e.getMessage().isBlank()); // Not a blank or empty message
+            assertTrue(e.getMessage().length() >= ACCEPTABLE_MESSAGE_LENGTH); // A message with a decent length
+        }
     }
 
     /**
