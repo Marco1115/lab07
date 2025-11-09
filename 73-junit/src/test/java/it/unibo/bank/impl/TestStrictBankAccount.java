@@ -13,6 +13,8 @@ import static org.junit.jupiter.api.Assertions.fail;
  */
 class TestStrictBankAccount {
 
+    private static final int AMOUNT = 100;
+
     // Create a new AccountHolder and a StrictBankAccount for it each time tests are executed.
     private AccountHolder mRossi;
     private BankAccount bankAccount;
@@ -41,7 +43,9 @@ class TestStrictBankAccount {
      */
     @Test
     public void testManagementFees() {
-        fail("To be implemented");
+        bankAccount.deposit(mRossi.getUserID(), AMOUNT);
+        bankAccount.chargeManagementFees(mRossi.getUserID());
+        assertEquals(AMOUNT - SimpleBankAccount.MANAGEMENT_FEE - StrictBankAccount.TRANSACTION_FEE, bankAccount.getBalance());
     }
 
     /**
